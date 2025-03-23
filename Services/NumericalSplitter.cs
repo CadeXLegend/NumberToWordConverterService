@@ -11,13 +11,10 @@ public class NumericalSplitter : INumericalSplitter<IPolyGraph<TriadicNumber>>
     public Result<IPolyGraph<TriadicNumber>, InvalidRequestTypes> Split(int number)
     {
         if (number < uint.MinValue)
-        {
             return new(default, InvalidRequestTypes.NegativeNumber);
-        }
+
         if (number > int.MaxValue)
-        {
             return new(default, InvalidRequestTypes.NumberTooBig);
-        }
 
         int digitsInNumber = (int)Math.Floor(Math.Log10(number) + 1);
         int numberOfGroups = number is 0 ? 1 : (digitsInNumber + 2) / 3;
