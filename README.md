@@ -10,8 +10,8 @@ The point of this specific project is to achieve it using a Graph-based apporoac
 
 - Unit Tests
 - Endpoint Tests
-- Fix a bug where And is sometimes missing
-- Refactor to remove .Trim() from String as it is an unnecessary call due to missing logic
+- ~~Fix a bug where And is sometimes missing~~
+- ~~Refactor to remove .Trim() from String as it is an unnecessary call due to missing logic~~
 - Create a Front-End Web UI for this
 - Extend to work with Decimals/Floats
 - Extend to add optional end-of-word notations
@@ -21,7 +21,7 @@ The point of this specific project is to achieve it using a Graph-based apporoac
 - Enhanced Logging for Unavoidable System Exceptions
      - When a Result itself can't be caught due to an inbuilt Exception
           - One example being: Providing a string instead of a number in the API request
-- Minor Refactoring
+- ~~Minor Refactoring~~
 
 ## Running It Locally
 
@@ -61,14 +61,9 @@ curl -X POST http://localhost:5021/number-to-words \
      -d '{"number": 420069}'
 ```
 
-#### Desired Response
+#### Response
 ```
 Four Hundred And Twenty Thousand And Sixty-Nine
-```
-
-#### Current Response (Missing an "And")
-```
-Four Hundred And Twenty Thousand Sixty-Nine
 ```
 
 ### Another Medium Number
@@ -81,7 +76,7 @@ curl -X POST http://localhost:5021/number-to-words \
      -d '{"number": 420169}'
 ```
 
-#### Response (Working)
+#### Response
 ```
 Four Hundred And Twenty Thousand One Hundred And Sixty-Nine
 ```
@@ -100,4 +95,20 @@ curl -X POST http://localhost:5021/number-to-words \
 
 ```
 Two Hundred And Twenty-Two Million Two Hundred And Twenty-Two Thousand Two Hundred And Twenty-Two
+```
+
+### Another Large Number
+
+#### Request
+
+```bash
+curl -X POST http://localhost:5021/number-to-words \
+     -H "Content-Type: application/json" \
+     -d '{"number": 1200056}'
+```
+
+#### Response
+
+```
+One Million Two Hundred Thousand And Fifty-Six
 ```
