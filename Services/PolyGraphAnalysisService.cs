@@ -10,7 +10,7 @@ public class PolyGraphAnalysisService : IPolyGraphAnalysisService
 {
     public LongScales GetLongScale(IPolyGraph<TriadicNumber> Graph) => (LongScales)Graph.Polygons().Length;
 
-    public string ToWords(IPolyGraph<TriadicNumber> Graph)
+    public string ToWords(IPolyGraph<TriadicNumber> Graph, string Notation = "")
     {
         List<string> sentence = [];
         var polygons = Graph.Polygons();
@@ -25,20 +25,28 @@ public class PolyGraphAnalysisService : IPolyGraphAnalysisService
 
             // if the only number is 0, then the word is Zero, ez, get out
             // otherwise, let's transform the polygons into words
-            string polygonWords = polygonLength is 1 && nodes.Length is 1 && nodes[0].Entity().Number is 0 ?
-                $"{(Digits)nodes[0].Entity().Number}" : PolygonToWords(polygons[i], longScale);
+            bool isThereOnlyZero = polygonLength is 1 && nodes.Length is 1 && nodes[0].Entity().Number is 0;
+            string polygonWords =  isThereOnlyZero ? 
+                $"{(Digits)nodes[0].Entity().Number}" : 
+                PolygonToWords(polygons[i], longScale);
 
             // We only wanna add the And delimiter if the last
             // triadic number group isn't all zeros (0, 00, or 000)
             // and isn't a part of a long scale group
             // and the hundreds position number is Zero
             // meaning it's either a ten, teen, or digit
-            bool isLastNodeZero = nodes.Length == 3 && nodes[2].Entity().Number == 0;
+            bool isLastNodeZeroInTriad = nodes.Length == 3 && nodes[2].Entity().Number == 0;
             bool allNodesAreNotZero = nodes.Select(n => n.Entity().Number).Sum() > 0;
-            string finalDelimiter = allNodesAreNotZero && !isLongScaleGroup && isLastNodeZero ? "And " : string.Empty;
+            string finalDelimiter = allNodesAreNotZero && !isLongScaleGroup && isLastNodeZeroInTriad ? "And " : string.Empty;
             
+            if(!allNodesAreNotZero && !isThereOnlyZero)
+                continue;
+
             sentence.Add($"{finalDelimiter}{polygonWords}");
         }
+
+        if(!string.IsNullOrEmpty(Notation))
+            sentence.Add(Notation);
 
         return string.Join(' ', sentence);
     }
@@ -84,7 +92,7 @@ public class PolyGraphAnalysisService : IPolyGraphAnalysisService
         if (hundreds.Number > 0)
             result.Append($"{(Digits)hundreds.Number} {ShortScales.Hundred}");
 
-        string twoDigits = TwoDigitsToWords(ones, tens, longScale);
+        string twoDigits = TwoDigitsToWords(ones, tens, string.Empty);
         if (!string.IsNullOrEmpty(twoDigits))
         {
             if (result.Length > 0)

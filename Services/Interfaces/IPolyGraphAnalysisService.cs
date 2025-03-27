@@ -7,5 +7,5 @@ namespace NumberToWordConverterService.Services.Interfaces;
 public interface IPolyGraphAnalysisService
 {
     LongScales GetLongScale(IPolyGraph<TriadicNumber> Graph);
-    string ToWords(IPolyGraph<TriadicNumber> Graph);
+    string ToWords(IPolyGraph<TriadicNumber> Graph, string Notation);
 }

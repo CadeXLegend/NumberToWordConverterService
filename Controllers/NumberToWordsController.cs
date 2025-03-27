@@ -26,6 +26,7 @@ public class NumberToWordsController(
             return BadRequest(outcome);
         }
 
-        return Ok(PolyGraphAnalysisService.ToWords(splitNumbersResult.Value));
+        string notation = string.IsNullOrEmpty(request.Notation) ? string.Empty : request.Notation;
+        return Ok(PolyGraphAnalysisService.ToWords(splitNumbersResult.Value, notation));
     }
 }
