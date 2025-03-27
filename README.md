@@ -14,8 +14,8 @@ The point of this specific project is to achieve it using a Graph-based apporoac
 - ~~Refactor to remove .Trim() from String as it is an unnecessary call due to missing logic~~
 - Create a Front-End Web UI for this
 - Extend to work with Decimals/Floats
-- Extend to add optional end-of-word notations
-     - Such as: "Dollars", "Pents", "Rubles", "Sheckles", and so on
+- ~~Extend to add optional end-of-word notations~~
+     - ~~Such as: "Dollars", "Pents", "Rubles", "Sheckles", and so on~~
 - Add optional comma delimiters for the number's triadic groupings
 - Full CI/CD Suite
 - Enhanced Logging for Unavoidable System Exceptions
@@ -111,4 +111,70 @@ curl -X POST http://localhost:5021/number-to-words \
 
 ```
 One Million Two Hundred Thousand And Fifty-Six
+```
+
+## Local Examples With Notations
+
+### Small Number 
+
+#### Request 1
+
+```bash
+curl -X POST http://localhost:5021/number-to-words \
+     -H "Content-Type: application/json" \
+     -d '{"number": 0, "notation":"F#*%s Given"}'
+```
+
+#### Response 1
+
+```
+Zero F#*%s Given
+```
+
+#### Request 2
+
+```bash
+curl -X POST http://localhost:5021/number-to-words \
+     -H "Content-Type: application/json" \
+     -d '{"number": 24, "notation":"Cents"}'
+```
+
+#### Response 2
+
+```
+Twenty-Four Cents
+```
+
+### Medium Number Request
+
+#### Request
+
+```bash
+
+```bash
+curl -X POST http://localhost:5021/number-to-words \
+     -H "Content-Type: application/json" \
+     -d '{"number": 253074, "notation":"Dollars"}'
+```
+
+#### Response
+
+```
+Two Hundred And Fifty-Three Thousand And Seventy-Four Dollars
+```
+
+### Large Number Request
+
+#### Request
+
+```bash
+curl -X POST http://localhost:5021/number-to-words \
+     -H "Content-Type: application/json" \
+     -d '{"number": 1000000, "notation":"Followers"}'
+```
+
+#### Response
+
+```
+One Million Followers
 ```
